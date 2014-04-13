@@ -1,0 +1,17 @@
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\bin\Debug\CalendarEventFromText.dll
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\bin\Debug\CalendarEventFromText.pdb
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\bin\Debug\CalendarEventFromText.dll.manifest
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\bin\Debug\CalendarEventFromText.vsto
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.dll
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\bin\Debug\Microsoft.Office.Tools.Outlook.v4.0.Utilities.dll
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.xml
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\bin\Debug\Microsoft.Office.Tools.Outlook.v4.0.Utilities.xml
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.csprojResolveAssemblyReference.cache
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\MainUserControl.baml
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\MainUserControl.g.cs
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText_MarkupCompile.cache
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.g.resources
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.Properties.Resources.resources
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.csproj.GenerateResource.Cache
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.dll
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.pdb
