@@ -18,7 +18,11 @@ namespace CalendarEventFromText
 {
     public partial class ThisAddIn
     {
-        public ObservableCollection<Outlook.AppointmentItem> apointments = new ObservableCollection<Outlook.AppointmentItem>();
+        public ObservableCollection<AppointmentRep> appointments = new ObservableCollection<AppointmentRep>();
+
+        public ObservableCollection<revertableAppointmentList> revertableAppointmentsMaster =
+            new ObservableCollection<revertableAppointmentList>();
+        
         private MainUserControl mainWindow;
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
@@ -27,13 +31,16 @@ namespace CalendarEventFromText
             host.Show();
             mainWindow.PreviewThrowEvent += AnalyseText;
             mainWindow.CommitEvent += CommitApointments;
-            mainWindow.MainDataGrid.DataContext = apointments;
-            mainWindow.MainDataGrid.ItemsSource = apointments;
+            //mainWindow.MainDataGrid.DataContext = appointments;
+            mainWindow.MainDataGrid.ItemsSource = appointments;
+            mainWindow.RevertableListBox.ItemsSource = revertableAppointmentsMaster;
+            appointments.Clear();
         }
 
         private void AnalyseText(object sender, EventArgs e)
         {
-            apointments.Clear();
+            appointments.Clear();
+            mainWindow.MainDataGrid.IsEnabled = true;
             SourceTextArgs text = (SourceTextArgs)e;
             LinkedList<LinkedList<string>> lines = new LinkedList<LinkedList<string>>();
 
@@ -46,7 +53,7 @@ namespace CalendarEventFromText
                 // Get new line each loop
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (!line.Contains("*"))
+                    if (!line.Contains("*")) // ToDo: Make variable
                     {
                         LinkedList<string> lineTokens = new LinkedList<string>(line.Split('\t'));
                         lines.AddLast(lineTokens);
@@ -58,20 +65,21 @@ namespace CalendarEventFromText
             foreach (var line in lines)
             {
                 number++;
-                var apointment = (Outlook.AppointmentItem)this.Application.CreateItem(Outlook.OlItemType.olAppointmentItem);
+                AppointmentRep appointment = new AppointmentRep();
+                //var appointment = (Outlook.AppointmentItem)this.Application.CreateItem(Outlook.OlItemType.olAppointmentItem);
                 string combinedDateStart = (line.ElementAt(1) + " " + line.ElementAt(2)).Remove(0,4).Replace(".", "");
                 string combinedDateEnd = (line.ElementAt(1) + " " + line.ElementAt(3)).Remove(0, 4).Replace(".", "");
 
-                apointment.Start = DateTime.ParseExact(combinedDateStart, "d MMM yyyy HH:mm", new CultureInfo("de-DE"));
-                apointment.End = DateTime.ParseExact(combinedDateEnd, "d MMM yyyy HH:mm", new CultureInfo("de-DE"));
-                apointment.Location = line.ElementAt(4);
+                appointment.Start = DateTime.ParseExact(combinedDateStart, "d MMM yyyy HH:mm", new CultureInfo("de-DE")); // ToDo: Make Dates pickable in DataGrid.
+                appointment.End = DateTime.ParseExact(combinedDateEnd, "d MMM yyyy HH:mm", new CultureInfo("de-DE"));
+                appointment.Location = line.ElementAt(4);
                 if (mainWindow.SubjectTextBox.IsEnabled)
-                    apointment.Subject = mainWindow.SubjectTextBox.Text;
+                    appointment.Subject = mainWindow.SubjectTextBox.Text;
                 if (mainWindow.GruppeTextBox.IsEnabled) 
-                    apointment.Categories = mainWindow.GruppeTextBox.Text;
+                    appointment.Categories = mainWindow.GruppeTextBox.Text;
                 if (mainWindow.BodyRichTextBox.IsEnabled)
-                    apointment.Body = new TextRange(mainWindow.BodyRichTextBox.Document.ContentStart, mainWindow.BodyRichTextBox.Document.ContentEnd).Text.Replace(Environment.NewLine, "  ");
-                apointments.Add(apointment);
+                    appointment.Body = new TextRange(mainWindow.BodyRichTextBox.Document.ContentStart, mainWindow.BodyRichTextBox.Document.ContentEnd).Text.Replace(Environment.NewLine, "  ");
+                appointments.Add(appointment);
             }
             mainWindow.PreviewsCreatedTextBlock.Text = number + " event(s).";
             // var apointment = (Outlook.AppointmentItem) this.Application.CreateItem(Outlook.OlItemType.olAppointmentItem);
@@ -80,13 +88,24 @@ namespace CalendarEventFromText
 
         private void CommitApointments(object sender, EventArgs e)
         {
+            ObservableCollection<Outlook.AppointmentItem> revertableAppointments = new ObservableCollection<Outlook.AppointmentItem>();
             int number = 0;
-            foreach (var appointmentItem in apointments)
+            foreach (var appointmentItem in appointments)
             {
-                appointmentItem.Save();
+                var officeAppointment = (Outlook.AppointmentItem)this.Application.CreateItem(Outlook.OlItemType.olAppointmentItem);
+                officeAppointment.Subject = appointmentItem.Subject;
+                officeAppointment.Start = appointmentItem.Start;
+                officeAppointment.End = appointmentItem.End;
+                officeAppointment.Body = appointmentItem.Body;
+                officeAppointment.Location = appointmentItem.Location;
+                officeAppointment.Categories = appointmentItem.Categories;
+                officeAppointment.Save();
+                revertableAppointments.Add(officeAppointment);
                 number++;
             }
+            revertableAppointmentsMaster.Add(new revertableAppointmentList(revertableAppointments));
             mainWindow.EventsCreatedTextBlock.Text = number + " event(s) created.";
+
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
@@ -108,7 +127,7 @@ namespace CalendarEventFromText
         #endregion
     }
 
-    public class ApointmentRep : INotifyPropertyChanged
+    public class AppointmentRep : INotifyPropertyChanged
     {
         private string _subject;
         private string _body;
@@ -168,5 +187,53 @@ namespace CalendarEventFromText
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
+    }
+
+    public class revertableAppointmentList
+    {
+        private static int _oldID = 0;
+        private ObservableCollection<Outlook.AppointmentItem> _appointmentList;
+        public string Name { get; set; }
+        public int ID { get; private set; }
+        public string UniqueSubjects { get; private set; }
+        public int NumberEvents { get; private set; }
+        public ObservableCollection<Outlook.AppointmentItem> AppointmentList
+        {
+            get { return _appointmentList; }
+            set
+            {
+                _appointmentList = value;
+                UpdateMetaData();
+            }
+        }
+        private void UpdateMetaData()
+        {
+            //ToDo: Implement with converter.
+            // Set unique subjects in the List of events (MatheIII, Mathe, Mathe) -> (MatheIII, Mathe)
+            UniqueSubjects = "";
+            foreach (var appointmentItem in AppointmentList)
+            {
+                if (UniqueSubjects == "") UniqueSubjects = appointmentItem.Subject;
+                else if (!UniqueSubjects.Contains(appointmentItem.Subject)) UniqueSubjects = UniqueSubjects + ", " +  appointmentItem.Subject;
+            }
+            // Set number of events in list.
+            NumberEvents = AppointmentList.Count();
+        }
+
+        public revertableAppointmentList()
+        {
+            ID = _oldID;
+            _oldID++;
+        }
+        public revertableAppointmentList(ObservableCollection<Outlook.AppointmentItem> appointments) : this()
+        {
+            AppointmentList = appointments;
+        }
+
+        public  string toString()
+        {
+            return ID + " " + Name;
+        }
+
     }
 }

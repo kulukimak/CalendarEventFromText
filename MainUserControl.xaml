@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="495" d:DesignWidth="895">
+             d:DesignHeight="489" d:DesignWidth="895">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="447" Width="447"/>
@@ -13,29 +13,29 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="Auto" MinHeight="118"/>
+            <RowDefinition Height="Auto" MinHeight="200"/>
         </Grid.RowDefinitions>
         <TextBox x:Name="SourceTextBox" Grid.Column="0" Margin="5" TextWrapping="WrapWithOverflow" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible"/>
-        <CheckBox x:Name="EnableGruppeCheckBox" Content="Gruppe" HorizontalAlignment="Left" Margin="5,8,0,0" Grid.Row="1" VerticalAlignment="Top" Checked="EnableGruppeCheckBox_Checked" Unchecked="EnableGruppeCheckBox_Unchecked" Height="15" Width="60"/>
-        <TextBox x:Name="GruppeTextBox" HorizontalAlignment="Left" Height="20" Margin="77,5,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="83" IsEnabled="False"/>
+        <CheckBox x:Name="EnableGruppeCheckBox" Content="Categories" HorizontalAlignment="Left" Margin="5,8,0,0" Grid.Row="1" VerticalAlignment="Top" Checked="EnableGruppeCheckBox_Checked" Unchecked="EnableGruppeCheckBox_Unchecked" Height="15" Width="78"/>
+        <TextBox x:Name="GruppeTextBox" HorizontalAlignment="Left" Height="20" Margin="88,5,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="82" IsEnabled="False"/>
         <CheckBox x:Name="EnableSubjectCheckBox" Content="Subject" HorizontalAlignment="Left" Margin="5,32,0,0" Grid.Row="1" VerticalAlignment="Top" Checked="EnableSubjectCheckBox_Checked" Unchecked="EnableSubjectCheckBox_Unchecked" Height="15" Width="59"/>
-        <TextBox x:Name="SubjectTextBox" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="77,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="83"/>
-        <CheckBox x:Name="EnableBodyRichTextBoxCheckBox" Content="Body" HorizontalAlignment="Left" Margin="200,8,0,0" Grid.Row="1" VerticalAlignment="Top" Checked="EnableBodyRichTextBoxCheckBox_Checked" Unchecked="EnableBodyRichTextBoxCheckBox_Unchecked" Height="15" Width="47"/>
-        <RichTextBox x:Name="BodyRichTextBox" IsEnabled="False" Margin="258,5,0,0" Grid.Row="1" Height="108" VerticalAlignment="Top" HorizontalAlignment="Left" Width="185" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <TextBox x:Name="SubjectTextBox" IsEnabled="False" HorizontalAlignment="Left" Height="20" Margin="88,30,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="83"/>
+        <CheckBox x:Name="EnableBodyRichTextBoxCheckBox" Content="Body" HorizontalAlignment="Left" Margin="206,8,0,0" Grid.Row="1" VerticalAlignment="Top" Checked="EnableBodyRichTextBoxCheckBox_Checked" Unchecked="EnableBodyRichTextBoxCheckBox_Unchecked" Height="15" Width="47"/>
+        <RichTextBox x:Name="BodyRichTextBox" IsEnabled="False" Margin="258,5,0,0" Grid.Row="1" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="185" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Button x:Name="PreviewButton" Content="Preview..." HorizontalAlignment="Left" Margin="10,65,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Height="20" Click="PreviewButton_Click"/>
+        <Button x:Name="PreviewButton" Content="Preview..." HorizontalAlignment="Left" Margin="5,65,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Height="20" Click="PreviewButton_Click"/>
         <TextBlock x:Name="PreviewsCreatedTextBlock" HorizontalAlignment="Left" Margin="94,68,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="151"/>
-        <Button x:Name="CreateEventsButton" Content="Create Events" HorizontalAlignment="Left" Margin="10,90,0,0" Grid.Row="1" VerticalAlignment="Top" Width="87" Click="CreateEventsButton_Click" Height="20" />
-        <DataGrid x:Name="MainDataGrid" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" ItemsSource="{Binding}">
+        <Button x:Name="CreateEventsButton" Content="Create Events" HorizontalAlignment="Left" Margin="5,90,0,0" Grid.Row="1" VerticalAlignment="Top" Width="87" Click="CreateEventsButton_Click" Height="20" />
+        <DataGrid x:Name="MainDataGrid" CanUserResizeRows="False" IsEnabled="False" AutoGenerateColumns="False" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" ItemsSource="{Binding}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Subject" Binding="{Binding Subject}"/>
-                <DataGridTextColumn Header="Start Time" Binding="{Binding Start}"/>
-                <DataGridTextColumn Header="End Time" Binding="{Binding End}"/>
+                <DataGridTextColumn Header="Start Time" Binding="{Binding Start, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}"/>
+                <DataGridTextColumn Header="End Time" Binding="{Binding End, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}"/>
                 <DataGridTextColumn Header="Location" Binding="{Binding Location}"/>
                 <DataGridTextColumn Header="Categories" Binding="{Binding Categories}"/>
                 <DataGridTextColumn Header="Body" Binding="{Binding Body}"/>
@@ -45,6 +45,13 @@
         <Border Grid.Row="0" Grid.Column="1"/>
         <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" ResizeDirection="Columns" Width="3" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <Border Grid.Row="0" Grid.Column="1"/>
-        
+        <DataGrid x:Name="RevertableListBox" CanUserResizeRows="False" CanUserAddRows="False" AutoGenerateColumns="False" CanUserDeleteRows="False" HorizontalAlignment="Left" Height="98" Margin="258,92,0,0" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Width="185">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Subjects" Binding="{Binding UniqueSubjects, Mode=OneWay}"/>
+                <DataGridTextColumn Header="Count" Binding="{Binding NumberEvents, Mode=OneWay}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
     </Grid>
 </UserControl>
