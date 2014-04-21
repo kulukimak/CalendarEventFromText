@@ -15,3 +15,4 @@ F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFr
 F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.csproj.GenerateResource.Cache
 F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.dll
 F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.pdb
+F:\Medien\SkyDrive\Quelldateien\C#\Outlook\CalendarEventFromText\CalendarEventFromText\CalendarEventFromText\obj\Debug\CalendarEventFromText.CalendarEventFromTextRibbon.resources

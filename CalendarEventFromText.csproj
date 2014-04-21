@@ -164,6 +164,12 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="CalendarEventFromTextRibbon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CalendarEventFromTextRibbon.Designer.cs">
+      <DependentUpon>CalendarEventFromTextRibbon.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainUserControl.xaml.cs">
       <DependentUpon>MainUserControl.xaml</DependentUpon>
     </Compile>
@@ -171,6 +177,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="CalendarEventFromTextRibbon.resx">
+      <DependentUpon>CalendarEventFromTextRibbon.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

@@ -22,19 +22,26 @@ namespace CalendarEventFromText
 
         public ObservableCollection<revertableAppointmentList> revertableAppointmentsMaster =
             new ObservableCollection<revertableAppointmentList>();
-        
-        private MainUserControl mainWindow;
+
+        public Window host;
+        public MainUserControl mainWindow;
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             mainWindow = new MainUserControl {Visibility = Visibility.Visible};
-            var host = new Window() {Content = mainWindow};
-            host.Show();
+            host = new Window() {Content = mainWindow};
+            host.Closing += host_Closing;
+            //host.Show();
             mainWindow.PreviewThrowEvent += AnalyseText;
             mainWindow.CommitEvent += CommitApointments;
             //mainWindow.MainDataGrid.DataContext = appointments;
             mainWindow.MainDataGrid.ItemsSource = appointments;
             mainWindow.RevertableListBox.ItemsSource = revertableAppointmentsMaster;
             appointments.Clear();
+        }
+
+        void host_Closing(object sender, CancelEventArgs e)
+        {
+            host.Hide();
         }
 
         private void AnalyseText(object sender, EventArgs e)
@@ -66,7 +73,6 @@ namespace CalendarEventFromText
             {
                 number++;
                 AppointmentRep appointment = new AppointmentRep();
-                //var appointment = (Outlook.AppointmentItem)this.Application.CreateItem(Outlook.OlItemType.olAppointmentItem);
                 string combinedDateStart = (line.ElementAt(1) + " " + line.ElementAt(2)).Remove(0,4).Replace(".", "");
                 string combinedDateEnd = (line.ElementAt(1) + " " + line.ElementAt(3)).Remove(0, 4).Replace(".", "");
 
@@ -82,8 +88,6 @@ namespace CalendarEventFromText
                 appointments.Add(appointment);
             }
             mainWindow.PreviewsCreatedTextBlock.Text = number + " event(s).";
-            // var apointment = (Outlook.AppointmentItem) this.Application.CreateItem(Outlook.OlItemType.olAppointmentItem);
-            // mainWindow.PreviewTextBlock.Text = text.SourceText;
         }
 
         private void CommitApointments(object sender, EventArgs e)
@@ -187,11 +191,14 @@ namespace CalendarEventFromText
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+
     }
 
     public class revertableAppointmentList
     {
-        private static int _oldID = 0;
+        private static int _oldId; // Default initialization = 0!
         private ObservableCollection<Outlook.AppointmentItem> _appointmentList;
         public string Name { get; set; }
         public int ID { get; private set; }
@@ -222,8 +229,7 @@ namespace CalendarEventFromText
 
         public revertableAppointmentList()
         {
-            ID = _oldID;
-            _oldID++;
+            ID = ++_oldId;
         }
         public revertableAppointmentList(ObservableCollection<Outlook.AppointmentItem> appointments) : this()
         {

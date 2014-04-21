@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,6 +71,36 @@ namespace CalendarEventFromText
             EventsCreatedTextBlock.Text = "";
         }
 
+        private void RevertItem_Click(object sender, RoutedEventArgs e)
+        {
+            //ToDo: Implement Revertion of connected items: http://stackoverflow.com/questions/16822956/getting-wpf-data-grid-context-menu-click-row
+            // http://blog.gisspan.com/2012/11/contextmenu-for-wpf-datagrid-on-row.html
+
+            //Get the clicked MenuItem
+            var menuItem = (MenuItem)sender;
+
+            //Get the ContextMenu to which the menuItem belongs
+            var contextMenu = (ContextMenu)menuItem.Parent;
+
+            //Find the placementTarget
+            var item = (DataGrid)contextMenu.PlacementTarget;
+
+            //Get the underlying item, that you cast to your object that is bound
+            //to the DataGrid (and has subject and state as property)
+            var toDeleteFromBindedList = (revertableAppointmentList)item.SelectedCells[0].Item;
+            foreach (var appointmentItem in toDeleteFromBindedList.AppointmentList)
+            {
+                try
+                {
+                    appointmentItem.Delete();
+                }
+                catch (System.Runtime.InteropServices.COMException ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+                
+            }
+        }
         
     }
 

@@ -51,6 +51,11 @@
                 <DataGridTextColumn Header="Subjects" Binding="{Binding UniqueSubjects, Mode=OneWay}"/>
                 <DataGridTextColumn Header="Count" Binding="{Binding NumberEvents, Mode=OneWay}"/>
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="RevertItem" Header="Revert" Click="RevertItem_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
 
     </Grid>
